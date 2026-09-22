@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fish Project</title>
+
+    <style>
+     body {
+      background-image:
+url("my love.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+     }
+
+     .welcome-box {
+      background: linear-gradient(
+       to bottom,
+       rbga(255,255,255,0.90),
+       rgba(255,255,255,0.65)
+      );
+      padding: 20px;
+      border-radius: 25px;
+      width: fit-content;
+
+      box-shadow:
+       0 10px 25px rgba(0,0,0,0.20),
+       inset 0 8px 12px rgba(255,255,255,0.55);
+     }
+
+     .center-button {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+
+      padding: 18px 35px;
+      font-size: 20px;
+      border-radius: 25px;
+      cursor: pointer;
+
+      box-shadow: 0 8px 15px rgba(0,0,0,0.20);
+
+      z-index: 2;
+     }
+
+     .wheel {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+
+      background: 
+       repeating-conic-gradient(
+        rgba(80, 120, 160, 0.35) 12deg 13deg,
+        transparent 13deg 36deg
+       ),
+       rgba(255,255,255,0.75);
+
+      box-shadow: 0 10px 25px
+     rgba(0,0,0,0.20);
+      z-index: 1;
+
+      transition: transform 4s ease-out;
+     }
+
+     .wheel span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform-origin:15px 0;
+
+      width:30px;
+      margin-left:-15px;
+      text-align:center;
+     }
+
+     .wheel .n1 { transform: rotate(0deg)
+     translateY(-170px); }
+     .wheel .n2 { transform: rotate(24deg)
+     translateY(-170px); }
+     .wheel .n3 { transform: rotate(48deg)
+     translateY(-170px); }
+     .wheel .n4 { transform: rotate(72deg)
+     translateY(-170px); }
+     .wheel .n5 { transform: rotate(96deg)
+     translateY(-170px); }
+     .wheel .n6 { transform: rotate(120deg)
+     translateY(-170px); }
+     .wheel .n7 { transform: rotate(144deg)
+     translateY(-170px); }
+     .wheel .n8 { transform: rotate(168deg)
+     translateY(-170px); }
+     .wheel .n9 { transform: rotate(192deg)
+     translateY(-170px); }
+     .wheel .n10 { transform: rotate(216deg)
+     translateY(-170px); }
+     .wheel .n11 { transform: rotate(240deg)
+     translateY(-170px); }
+     .wheel .n12 { transform: rotate(264deg)
+     translateY(-170px); }
+     .wheel .n13 { transform: rotate(288deg)
+     translateY(-170px); }
+     .wheel .n14 { transform: rotate(312deg)
+     translateY(-170px); }
+     .wheel .n15 { transform: rotate(336deg)
+     translateY(-170px); }
+
+     .pointer { 
+      position: fixed;
+      top: calc(50% - 225px);
+      left: 50%;
+      transform: translateX(-50%);
+
+      font-size: 35px;
+      z-index: 3;
+     }
+
+     #spinMessage { 
+      position: fixed;
+      top: calc(50% + 225px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+
+      text-align: center;
+      font-size: 18px;
+
+      background: rgba(255,255,255,0.65);
+      padding: 12px 18px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+     }
+
+     #spinMessage:empty { 
+      display: none;
+     }
+
+     #rewardImage { 
+      display: none;
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      width: 250px;
+      height: auto;
+      object-fit: contain;
+      z-index: 10;
+     }
+
+     #masterReward { 
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 350px;
+      height: auto;
+      z-index: 20;
+     }
+
+     #resetButton { 
+      position: fixed;
+      top: 200px;
+      left: 30px;
+      background: white;
+      border: none;
+      border-radius: 25px;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+     }
+
+     #progressMessage { 
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 18px;
+      text-align: center;
+      z-index: 10;
+      background: linear-gradient(
+       to bottom,
+       rgba(255,255,255,0.60),
+       rgba(255,255,255,0.25)
+      );
+      padding: 20px;
+      border-radius: 25px;
+      box-shadow: 
+       0 10px 25px rgba(0,0,0,0.20),
+       inset 0 8px 12px rbga(255,255,255,0.55);
+     }
+
+     #progressMessage:empty { 
+      display: none;
+     }
+
+    </style>
+</head>
+
+<body>
+  <div class="welcome-box">
+    <h1>Hello Fish 🐟</h1>
+    <p>Look what I made!</p>
+  </div>
+
+  <div class="pointer">▼</div>
+
+  <div class="wheel" id="wheel">
+    <span class="n1">1</span>
+    <span class="n2">2</span>
+    <span class="n3">3</span>
+    <span class="n4">4</span>
+    <span class="n5">5</span>
+    <span class="n6">6</span>
+    <span class="n7">7</span>
+    <span class="n8">8</span>
+    <span class="n9">9</span>
+    <span class="n10">10</span>
+    <span class="n11">11</span>
+    <span class="n12">12</span>
+    <span class="n13">13</span>
+    <span class="n14">14</span>
+    <span class="n15">15</span>
+  </div>
+
+
+  <button class="center-button" id="spinButton">Press me🐟</button>
+
+  <p id="spinMessage"></p>
+  <p id="progressMessage"></p>
+
+  <button id="resetButton">Reset progress</button>
+
+  <img id="rewardImage" src="" alt="Mysteryreward">
+  <img id="masterReward" src="" alt="Masterplaylist">
+
+  <audio id="spinSound" src="sounds/spin-sound.m4a"></audio>
+
+
+  <script>
+   const wheel =
+  document.getElementById("wheel");
+   const spinButton =
+  document.getElementById("spinButton");
+   const spinMessage =
+  document.getElementById("spinMessage");
+   const progressMessage =
+  document.getElementById("progressMessage");
+   const resetButton = 
+  document.getElementById("resetButton");
+   const rewardImage =
+  document.getElementById("rewardImage");
+   const masterReward = 
+  document.getElementById("masterReward");
+   const spinSound = 
+  document.getElementById("spinSound");
+
+   let currentRotation = 0;
+   let selectedNumber = 0;
+
+   let collectedNumbers = 
+   JSON.parse(localStorage.getItem("collectedNumbers")) || [];
+
+   let duplicateCount = 
+   Number(localStorage.getItem("duplicateCount")) || 0;
+
+   console.log("Duplicate count:", duplicateCount);
+
+   console.log("Collected numbers:", collectedNumbers);
+
+   function updateProgress()
+   {
+    if (collectedNumbers.length === 0)
+    {
+     progressMessage.textContent = "";
+    }
+    else
+    {
+     progressMessage.textContent = 
+     "🎵" + collectedNumbers.length + " / 15 collected";
+    }
+   }
+
+   updateProgress();
+
+   spinButton.addEventListener("click",function()
+   {
+    console.log("THE FISH HAS BEEN PRESSED🐟");
+
+    if (collectedNumbers.length === 15)
+    {
+     console.log("ALL SONGS COLLECTED!🥳");
+
+     rewardImage.style.display = "none";
+
+     masterReward.src = "song codes/master.jpg";
+     masterReward.style.display = "block";
+
+     spinMessage.innerHTML = 
+      "Wow! You got all 15 codes🎉🎉<br>"
+    +
+      "Now you've unlocked this even cooler one😎⬆️";
+     
+     return;
+    }
+
+   spinSound.currentTime = 0;
+   spinSound.play();
+
+    if (duplicateCount < 5)
+    {  
+     selectedNumber = 
+     Math.floor(Math.random() * 15) + 1;
+    }
+    else
+    {
+     let availableNumbers = [];
+     
+     for (let number = 1; number <= 15;
+    number++)
+     {
+      if(!
+    collectedNumbers.includes(number))
+      {
+       availableNumbers.push(number);
+      }
+     }
+
+     selectedNumber =
+     availableNumbers[
+      Math.floor(Math.random() * availableNumbers.length)
+    ];
+   }
+    
+   console.log("Selected number:", selectedNumber);
+     
+    spinMessage.textContent = "Thank you!😊 Let's see what the wheel says...";
+
+    spinButton.style.display = "none";
+    rewardImage.style.display = "none";
+
+    const targetAngle = -(selectedNumber - 1) * 24;
+
+    const currentAngle = ((currentRotation % 360) + 360) % 360;
+
+    const distanceToTarget = (currentAngle - targetAngle + 360) % 360;
+
+    currentRotation = currentRotation - 1080 - distanceToTarget;
+
+    wheel.style.transform = "translate(-50%, -50%) rotate(" + currentRotation + "deg)"; 
+   });
+
+   wheel.addEventListener("transitionend",
+   function()
+   {
+    spinButton.style.display = "block";
+    spinButton.textContent = "Spin again🐟";
+    
+    spinMessage.textContent = "You got number " + selectedNumber + "!🎉";
+
+    if(!
+    collectedNumbers.includes(selectedNumber))
+    {
+
+    collectedNumbers.push(selectedNumber);
+
+     localStorage.setItem(
+      "collectedNumbers", JSON.stringify(collectedNumbers)
+     );
+    
+     updateProgress();
+
+     console.log("New number collected:", selectedNumber);
+   }
+   else
+   {
+    duplicateCount = duplicateCount + 1;
+
+    localStorage.setItem(
+     "duplicateCount", duplicateCount
+    ); 
+    
+    console.log("Duplicate:", selectedNumber);
+    console.log("Duplicate count:", duplicateCount);
+   }
+
+   console.log("Collected numbers:", collectedNumbers);
+
+    rewardImage.src = "song codes/song" + selectedNumber + ".jpg";
+    rewardImage.style.display = "block";
+   });
+
+    resetButton.addEventListener("click", function()
+    {
+
+    localStorage.removeItem("collectedNumbers");
+
+    localStorage.removeItem("duplicateCount"); 
+
+     collectedNumbers = [];
+     duplicateCount = 0;
+
+     updateProgress();
+
+     rewardImage.style.display = "none";
+     masterReward.style.display = "none";
+
+     wheel.style.transition = "none";
+
+     currentRotation = 0;
+
+     wheel.style.transform = 
+      "translate(-50%, -50%) rotate(0deg)";
+
+     void wheel.offsetWidth;
+
+     wheel.style.transition = "transform 4s ease-out";
+
+     spinButton.textContent = "Press me 🐟";
+
+     spinMessage.innerHTML =
+      "Reset successful!! 😊<br>" 
+     +
+      "You can now play again 🎉👍";
+
+     console.log("Progress reset! 🐟");
+   });
+
+</script>
+
+</body>
+</html>
