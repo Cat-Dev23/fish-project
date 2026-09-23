@@ -49,6 +49,8 @@ url("my love.jpg");
      }
 
      .wheel {
+      --number-radius: -170px;
+         
       position: fixed;
       top: 50%;
       left: 50%;
@@ -84,7 +86,7 @@ url("my love.jpg");
      }
 
      .wheel .n1 { transform: rotate(0deg)
-     translateY(-170px); }
+     translateY(var(--number-radius)); }
      .wheel .n2 { transform: rotate(24deg)
      translateY(-170px); }
      .wheel .n3 { transform: rotate(48deg)
